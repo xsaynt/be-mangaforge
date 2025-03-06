@@ -1,0 +1,39 @@
+{
+	"name": "be-mangaforge",
+	"version": "1.0.0",
+	"description": "",
+	"main": "listen.js",
+	"scripts": {
+		"setup-dbs": "psql -f ./db/setup.sql",
+		"seed": "node ./db/seeds/run-seed.js",
+		"test": "jest",
+		"prepare": "husky install",
+		"start": "node listen.js",
+		"seed-prod": "NODE_ENV=production npm run seed"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xsaynt/be-mangaforge.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/xsaynt/be-mangaforge/issues"
+	},
+	"homepage": "https://github.com/xsaynt/be-mangaforge#readme",
+	"dependencies": {
+		"express": "^4.21.2",
+		"pg": "^8.13.3",
+		"pg-format": "^1.0.4"
+	},
+	"devDependencies": {
+		"dotenv": "^16.4.7",
+		"husky": "^9.1.7",
+		"jest": "^29.7.0",
+		"jest-sorted": "^1.0.15",
+		"nodemon": "^3.1.9",
+		"supertest": "^7.0.0"
+	}
+}
