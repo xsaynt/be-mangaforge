@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import apiRouter from './routers/api-router';
+import apiRouter from './routers/api-router.js';
 import {
 	postgresErrorHandler,
 	customErrorHandler,
 	serverErrorHandler,
-} from './error';
+} from './error.js';
 const app = express();
 
 app.use(express.json(), cors());

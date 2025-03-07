@@ -1,10 +1,11 @@
-import basketRouter from './basket-router';
-import favouritesRouter from './favourites-router';
-import historyRouter from './history-router';
-import mangaRouter from './manga-router';
-import usersRouter from './users-router';
+import express from 'express';
+import basketRouter from './basket-router.js';
+import favouritesRouter from './favourites-router.js';
+import historyRouter from './history-router.js';
+import mangaRouter from './manga-router.js';
+import usersRouter from './users-router.js';
 
-const apiRouter = require('express').Router();
+const apiRouter = express.Router();
 
 apiRouter.use('/basket', basketRouter);
 apiRouter.use('/favourites', favouritesRouter);
