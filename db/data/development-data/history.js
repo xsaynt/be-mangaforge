@@ -1,1 +1,1 @@
-export const historyData = [{}];
+export const historyData = [];

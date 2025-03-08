@@ -1,1 +1,1 @@
-export const basketData = [{}];
+export const basketData = [];

@@ -1,1 +1,1 @@
-export const favouritesData = [{}];
+export const favouritesData = [];
