@@ -7,9 +7,14 @@ import {
 import seed from './seed.js';
 import db from '../connection.js';
 
-const runseed = async () => {
-	await seed(basketData, favouritesData, historyData, usersData);
-	return db.end();
+const runSeed = async () => {
+	try {
+		await seed(basketData, favouritesData, historyData, usersData);
+		return db.end();
+	} catch (err) {
+		console.log('Seeding Error: ', err);
+		await db.end();
+	}
 };
 
-runseed();
+runSeed();
