@@ -1,6 +1,8 @@
 export const historyData = [
 	[
 		{
+			history_id: 1,
+			user_id: 1,
 			item_title: 'Jujutsu Kaisen',
 			item_author: 'Gege Akutami',
 			item_image: 'https://meo.comick.pictures/NrkKZo.jpg',
@@ -8,6 +10,8 @@ export const historyData = [
 			quantity: 1,
 		},
 		{
+			history_id: 1,
+			user_id: 1,
 			item_title: 'Attack on Titan',
 			item_author: 'Hajime Isayama',
 			item_image:
@@ -16,6 +20,8 @@ export const historyData = [
 			quantity: 1,
 		},
 		{
+			history_id: 1,
+			user_id: 1,
 			item_title: 'Hunter x Hunter',
 			item_author: 'Yoshihiro Togashi',
 			item_image:
@@ -24,6 +30,8 @@ export const historyData = [
 			quantity: 1,
 		},
 		{
+			history_id: 1,
+			user_id: 1,
 			item_title: 'Demon Slayer',
 			item_author: 'Koyoharu Gotouge',
 			item_image:
@@ -32,6 +40,8 @@ export const historyData = [
 			quantity: 1,
 		},
 		{
+			history_id: 1,
+			user_id: 1,
 			item_title: 'EIGHTY SIX',
 			item_author: 'Asato Asato',
 			item_image:
@@ -42,6 +52,8 @@ export const historyData = [
 	],
 	[
 		{
+			history_id: 2,
+			user_id: 2,
 			item_title: 'Jujutsu Kaisen',
 			item_author: 'Gege Akutami',
 			item_image: 'https://meo.comick.pictures/NrkKZo.jpg',
@@ -49,6 +61,8 @@ export const historyData = [
 			quantity: 2,
 		},
 		{
+			history_id: 2,
+			user_id: 2,
 			item_title: 'Attack on Titan',
 			item_author: 'Hajime Isayama',
 			item_image:
@@ -57,6 +71,8 @@ export const historyData = [
 			quantity: 1,
 		},
 		{
+			history_id: 2,
+			user_id: 2,
 			item_title: 'Hunter x Hunter',
 			item_author: 'Yoshihiro Togashi',
 			item_image:
@@ -65,6 +81,8 @@ export const historyData = [
 			quantity: 3,
 		},
 		{
+			history_id: 2,
+			user_id: 2,
 			item_title: 'Demon Slayer',
 			item_author: 'Koyoharu Gotouge',
 			item_image:
@@ -73,6 +91,8 @@ export const historyData = [
 			quantity: 1,
 		},
 		{
+			history_id: 2,
+			user_id: 2,
 			item_title: 'EIGHTY SIX',
 			item_author: 'Asato Asato',
 			item_image:

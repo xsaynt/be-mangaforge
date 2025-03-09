@@ -1,5 +1,7 @@
 export const basketData = [
 	{
+		basket_id: 1,
+		user_id: 1,
 		item_title: 'Jujutsu Kaisen',
 		item_author: 'Gege Akutami',
 		item_image: 'https://meo.comick.pictures/NrkKZo.jpg',
@@ -7,6 +9,8 @@ export const basketData = [
 		quantity: 1,
 	},
 	{
+		basket_id: 1,
+		user_id: 1,
 		item_title: 'Attack on Titan',
 		item_author: 'Hajime Isayama',
 		item_image: 'https://m.media-amazon.com/images/I/81qPzeEO5IL._SL1500_.jpg',
@@ -14,6 +18,8 @@ export const basketData = [
 		quantity: 1,
 	},
 	{
+		basket_id: 1,
+		user_id: 1,
 		item_title: 'Hunter x Hunter',
 		item_author: 'Yoshihiro Togashi',
 		item_image: 'https://m.media-amazon.com/images/I/81nIhb1+iBL._SL1500_.jpg',
@@ -21,6 +27,8 @@ export const basketData = [
 		quantity: 1,
 	},
 	{
+		basket_id: 1,
+		user_id: 1,
 		item_title: 'Demon Slayer',
 		item_author: 'Koyoharu Gotouge',
 		item_image: 'https://m.media-amazon.com/images/I/81DjuU26RrL._SL1500_.jpg',
@@ -28,6 +36,8 @@ export const basketData = [
 		quantity: 1,
 	},
 	{
+		basket_id: 1,
+		user_id: 1,
 		item_title: 'EIGHTY SIX',
 		item_author: 'Asato Asato',
 		item_image:

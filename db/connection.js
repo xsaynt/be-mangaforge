@@ -1,5 +1,11 @@
-import { Pool } from 'pg';
+import pkg from 'pg';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const ENV = process.env.NODE_ENV || 'development';
 
 dotenv.config({
@@ -16,6 +22,8 @@ if (ENV === 'production') {
 	config.connectionString = process.env.DATABASE_URL;
 	config.max = 2;
 }
+
+const { Pool } = pkg;
 
 const db = new Pool(config);
 
