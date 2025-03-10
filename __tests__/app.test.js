@@ -19,8 +19,28 @@ describe('GET /api', () => {
 			.get('/api')
 			.expect(200)
 			.then(({ body: { endpoints } }) => {
-				console.log(endpoints);
 				expect(endpoints).toEqual(endpointsJson);
+			});
+	});
+});
+
+describe('GET /api/basket', () => {
+	test('200: Responds with an array of all basket', () => {
+		return request(app)
+			.get('/api/basket')
+			.expect(200)
+			.then(({ body: { baskets } }) => {
+				console.log(baskets);
+				expect(baskets).toHaveLength(5);
+				baskets.forEach((basket) => {
+					expect(basket).toHaveProperty('basket_id', expect.any(Number));
+					expect(basket).toHaveProperty('user_id', expect.any(Number));
+					expect(basket).toHaveProperty('item_title', expect.any(String));
+					expect(basket).toHaveProperty('item_author', expect.any(String));
+					expect(basket).toHaveProperty('item_image', expect.any(String));
+					expect(basket).toHaveProperty('price', expect.any(String));
+					expect(basket).toHaveProperty('quantity', expect.any(Number));
+				});
 			});
 	});
 });
