@@ -1,5 +1,8 @@
 {
 	"GET /api": {
 		"descripton": "Provides a JSON representation of all available endpoints"
+	},
+	"GET /api/basket": {
+		"description": "Provides an array of objects"
 	}
 }
