@@ -1,11 +1,11 @@
-import {
+const {
 	basketData,
 	favouritesData,
 	historyData,
 	usersData,
-} from '../data/development-data/index.js';
-import seed from './seed.js';
-import db from '../connection.js';
+} = require('../data/development-data/index.js');
+const seed = require('./seed.js');
+const db = require('../connection.js');
 
 const runSeed = async () => {
 	try {

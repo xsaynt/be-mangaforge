@@ -1,1 +1,1 @@
-export const favouritesData = [];
+exports.favouritesData = [];

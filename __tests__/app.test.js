@@ -31,7 +31,7 @@ describe('GET /api/basket', () => {
 			.expect(200)
 			.then(({ body: { baskets } }) => {
 				console.log(baskets);
-				expect(baskets).toHaveLength(5);
+				expect(baskets).toHaveLength(10);
 				baskets.forEach((basket) => {
 					expect(basket).toHaveProperty('basket_id', expect.any(Number));
 					expect(basket).toHaveProperty('user_id', expect.any(Number));

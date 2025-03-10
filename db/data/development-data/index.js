@@ -1,6 +1,6 @@
-import { basketData } from './basket.js';
-import { favouritesData } from './favourites.js';
-import { historyData } from './history.js';
-import { usersData } from './users.js';
+const { basketData } = require('./basket.js');
+const { favouritesData } = require('./favourites.js');
+const { historyData } = require('./history.js');
+const { usersData } = require('./users.js');
 
-export { basketData, favouritesData, historyData, usersData };
+module.exports = { basketData, favouritesData, historyData, usersData };

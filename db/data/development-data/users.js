@@ -1,4 +1,4 @@
-export const usersData = [
+exports.usersData = [
 	{
 		username: 'Guest',
 		user_email: 'mangaforge-guest@test.com',

@@ -1,1 +1,1 @@
-export const historyData = [];
+exports.historyData = [];

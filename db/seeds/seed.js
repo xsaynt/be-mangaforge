@@ -25,7 +25,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
                 item_image VARCHAR NOT NULL,
-                price DECIMAL(10,2),
+                price NUMERIC(10,2),
                 quantity INT NOT NULL CHECK (quantity >= 0)
             );
         `),
@@ -37,7 +37,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
                 item_image VARCHAR NOT NULL,
-                price DECIMAL(10,2)
+                price NUMERIC(10,2)
             );
         `),
 
@@ -48,7 +48,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
                 item_image VARCHAR NOT NULL,
-                price DECIMAL(10,2),
+                price NUMERIC(10,2),
                 quantity INT NOT NULL CHECK (quantity >= 0)
             );
         `),
