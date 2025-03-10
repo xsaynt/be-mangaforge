@@ -1,5 +1,5 @@
-import express from 'express';
+const express = require('express');
 
 const basketRouter = express.Router();
 
-export default basketRouter;
+module.exports = basketRouter;

@@ -1,4 +1,4 @@
-export const favouritesData = [
+const favouritesData = [
 	{
 		favourites_id: 1,
 		user_id: 1,
@@ -41,3 +41,5 @@ export const favouritesData = [
 		price: 9.95,
 	},
 ];
+
+module.exports = favouritesData;

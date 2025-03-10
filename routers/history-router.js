@@ -1,5 +1,5 @@
-import express from 'express';
+const express = require('express');
 
 const historyRouter = express.Router();
 
-export default historyRouter;
+module.exports = historyRouter;

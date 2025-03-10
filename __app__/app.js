@@ -1,11 +1,12 @@
-import express from 'express';
-import cors from 'cors';
-import apiRouter from '../routers/api-router.js';
-import {
+const express = require('express');
+const cors = require('cors');
+const apiRouter = require('../routers/api-router.js');
+const {
 	postgresErrorHandler,
 	customErrorHandler,
 	serverErrorHandler,
-} from '../error.js';
+} = require('../error.js');
+
 const app = express();
 
 app.use(express.json(), cors());
@@ -16,4 +17,4 @@ app.use(postgresErrorHandler);
 app.use(customErrorHandler);
 app.use(serverErrorHandler);
 
-export default app;
+module.exports = app;

@@ -1,5 +1,5 @@
-import express from 'express';
+const express = require('express');
 
 const usersRouter = express.Router();
 
-export default usersRouter;
+module.exports = usersRouter;

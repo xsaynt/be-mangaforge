@@ -1,5 +1,5 @@
-import format from 'pg-format';
-import db from '../connection.js';
+const format = require('pg-format');
+const db = require('../connection.js');
 
 const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 	await db.query('DROP TABLE IF EXISTS basket;');
@@ -132,4 +132,5 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 		console.log('No history data to insert.');
 	}
 };
-export default seed;
+
+module.exports = seed;

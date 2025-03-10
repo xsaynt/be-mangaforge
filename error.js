@@ -1,4 +1,4 @@
-export const postgresErrorHandler = (err, req, res, next) => {
+const postgresErrorHandler = (err, req, res, next) => {
 	if (err.code === '22P02') {
 		res.status(400).send({ msg: 'Bad Request' });
 	} else if (
@@ -12,7 +12,7 @@ export const postgresErrorHandler = (err, req, res, next) => {
 	}
 };
 
-export const customErrorHandler = (err, req, res, next) => {
+const customErrorHandler = (err, req, res, next) => {
 	if (err.status && err.msg) {
 		res.status(err.status).send({ msg: err.msg });
 	} else {
@@ -20,7 +20,13 @@ export const customErrorHandler = (err, req, res, next) => {
 	}
 };
 
-export const serverErrorHandler = (err, req, res, next) => {
+const serverErrorHandler = (err, req, res, next) => {
 	console.log('Error is: ', err);
 	res.status(500).send({ msg: 'Internal Server Error' });
+};
+
+module.exports = {
+	postgresErrorHandler,
+	customErrorHandler,
+	serverErrorHandler,
 };

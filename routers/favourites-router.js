@@ -1,5 +1,5 @@
-import express from 'express';
+const express = require('express');
 
 const favouritesRouter = express.Router();
 
-export default favouritesRouter;
+module.exports = favouritesRouter;

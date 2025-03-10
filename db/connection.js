@@ -1,11 +1,5 @@
-import pkg from 'pg';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
 const ENV = process.env.NODE_ENV || 'development';
 
 dotenv.config({
@@ -23,8 +17,4 @@ if (ENV === 'production') {
 	config.max = 2;
 }
 
-const { Pool } = pkg;
-
-const db = new Pool(config);
-
-export default db;
+module.exports = new Pool(config);

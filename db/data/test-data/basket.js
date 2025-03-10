@@ -1,4 +1,4 @@
-export const basketData = [
+const basketData = [
 	{
 		basket_id: 1,
 		user_id: 1,
@@ -46,3 +46,5 @@ export const basketData = [
 		quantity: 1,
 	},
 ];
+
+module.exports = basketData;

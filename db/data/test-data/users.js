@@ -1,4 +1,4 @@
-export const usersData = [
+const usersData = [
 	{
 		username: 'Manga_Lover123',
 		user_email: 'mangalover@gmail.com',
@@ -20,3 +20,5 @@ export const usersData = [
 			'https://i1.sndcdn.com/artworks-vzvYkPmzB5nuo1oT-yg9zfw-t1080x1080.jpg',
 	},
 ];
+
+module.exports = usersData;

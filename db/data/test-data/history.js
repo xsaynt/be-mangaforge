@@ -1,4 +1,4 @@
-export const historyData = [
+const historyData = [
 	[
 		{
 			history_id: 1,
@@ -102,3 +102,5 @@ export const historyData = [
 		},
 	],
 ];
+
+module.exports = historyData;
