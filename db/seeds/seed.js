@@ -20,7 +20,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 	await Promise.all([
 		db.query(`
             CREATE TABLE basket (
-                basket_id SERIAL PRIMARY KEY,
+                basket_id INT NOT NULL,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
@@ -32,7 +32,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 		db.query(`
             CREATE TABLE favourites (
-                favourites_id SERIAL PRIMARY KEY,
+                favourites_id INT NOT NULL,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
@@ -43,7 +43,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 		db.query(`
             CREATE TABLE history (
-                history_id SERIAL PRIMARY KEY,
+                history_id INT NOT NULL,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
@@ -71,19 +71,24 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 		console.log('No user data to insert.');
 	}
 
+	const flatBasketData = (basketData || [])
+		.flat()
+		.map(
+			({ user_id, item_title, item_author, item_image, price, quantity }) => [
+				user_id,
+				user_id,
+				item_title,
+				item_author,
+				item_image,
+				price,
+				quantity,
+			]
+		);
+
 	if (basketData && basketData.length > 0) {
 		const insertBasketQueryStr = format(
-			`INSERT INTO basket(user_id, item_title, item_author, item_image, price, quantity) VALUES %L;`,
-			(basketData || []).map(
-				({ user_id, item_title, item_author, item_image, price, quantity }) => [
-					user_id,
-					item_title,
-					item_author,
-					item_image,
-					price,
-					quantity,
-				]
-			)
+			`INSERT INTO basket(basket_id, user_id, item_title, item_author, item_image, price, quantity) VALUES %L;`,
+			flatBasketData
 		);
 		await db.query(insertBasketQueryStr);
 	} else {
@@ -92,9 +97,10 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 	if (favouritesData && favouritesData.length > 0) {
 		const insertFavouritesQueryStr = format(
-			`INSERT INTO favourites(user_id, item_title, item_author, item_image, price) VALUES %L;`,
+			`INSERT INTO favourites(favourites_id, user_id, item_title, item_author, item_image, price) VALUES %L;`,
 			(favouritesData || []).map(
 				({ user_id, item_title, item_author, item_image, price }) => [
+					user_id,
 					user_id,
 					item_title,
 					item_author,
@@ -113,6 +119,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 		.map(
 			({ user_id, item_title, item_author, item_image, price, quantity }) => [
 				user_id,
+				user_id,
 				item_title,
 				item_author,
 				item_image,
@@ -123,7 +130,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 	if (flatHistoryData.length > 0) {
 		const insertHistoryQueryStr = format(
-			`INSERT INTO history(user_id, item_title, item_author, item_image, price, quantity) VALUES %L;`,
+			`INSERT INTO history(history_id, user_id, item_title, item_author, item_image, price, quantity) VALUES %L;`,
 			flatHistoryData
 		);
 
