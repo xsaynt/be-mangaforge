@@ -10,7 +10,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 	await db.query(`
         CREATE TABLE users (
             user_id SERIAL PRIMARY KEY,
-            username VARCHAR NOT NULL,
+            username VARCHAR UNIQUE NOT NULL,
             user_email VARCHAR UNIQUE NOT NULL,
             user_password VARCHAR NOT NULL,
             user_picture VARCHAR
