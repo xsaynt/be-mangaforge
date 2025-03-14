@@ -20,7 +20,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 	await Promise.all([
 		db.query(`
             CREATE TABLE basket (
-                basket_id INT NOT NULL,
+                basket_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
@@ -32,7 +32,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 		db.query(`
             CREATE TABLE favourites (
-                favourites_id INT NOT NULL,
+                favourites_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,
@@ -43,7 +43,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 		db.query(`
             CREATE TABLE history (
-                history_id INT NOT NULL,
+                history_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 item_title VARCHAR NOT NULL,
                 item_author VARCHAR NOT NULL,

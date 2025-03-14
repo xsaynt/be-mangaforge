@@ -47,12 +47,12 @@ describe('GET /api/basket', () => {
 describe('GET /api/basket/:basket_id', () => {
 	test('200: Responds with the basket related to the input basket_id', () => {
 		return request(app)
-			.get('/api/basket/1')
+			.get('/api/basket/3')
 			.expect(200)
 			.then(({ body: basket }) => {
-				expect(basket).toHaveLength(5);
+				expect(basket).toHaveLength(2);
 				basket.forEach((item) => {
-					expect(item).toHaveProperty('basket_id', 1);
+					expect(item).toHaveProperty('basket_id', 3);
 				});
 			});
 	});
@@ -64,12 +64,93 @@ describe('GET /api/basket/:basket_id', () => {
 				expect(body.msg).toBe('Bad Request');
 			});
 	});
-	test('404: Responds with a not found error when passed a user_id that does not exist', () => {
+	test('404: Responds with a not found error when passed a basket_id that does not exist', () => {
 		return request(app)
 			.get('/api/basket/100')
 			.expect(404)
 			.then(({ body }) => {
 				expect(body.msg).toBe('Not Found');
+			});
+	});
+});
+
+describe('POST /api/basket/:basket_id', () => {
+	test('201: Adds another item to the basket of a specified basket', () => {
+		const inputData = {
+			item_title: 'Dandadan',
+			item_author: 'Yukinobu Tatsu',
+			item_image:
+				'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+			price: 12.99,
+			quantity: 1,
+		};
+
+		return request(app)
+			.post('/api/basket/3')
+			.send(inputData)
+			.expect(201)
+			.then(({ body }) => {
+				expect(body).toMatchObject({
+					basket_id: 3,
+					user_id: 3,
+					item_title: 'Dandadan',
+					item_author: 'Yukinobu Tatsu',
+					item_image:
+						'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+					price: '12.99',
+					quantity: 1,
+				});
+			});
+	});
+	test('404: Returns a not found error when attempting to post to a non existing basket_id', () => {
+		const inputData = {
+			item_title: 'Dandadan',
+			item_author: 'Yukinobu Tatsu',
+			item_image:
+				'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+			price: 12.99,
+			quantity: 1,
+		};
+
+		return request(app)
+			.post('/api/basket/4')
+			.send(inputData)
+			.expect(404)
+			.then(({ body }) => {
+				expect(body.msg).toBe('Not Found');
+			});
+	});
+	test('400: Returns a does not exist error when attempting to post to a invalid basket_id input', () => {
+		const inputData = {
+			item_title: 'Dandadan',
+			item_author: 'Yukinobu Tatsu',
+			item_image:
+				'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+			price: 12.99,
+			quantity: 1,
+		};
+
+		return request(app)
+			.post('/api/basket/abc')
+			.send(inputData)
+			.expect(400)
+			.then(({ body }) => {
+				expect(body.msg).toBe('Bad Request');
+			});
+	});
+});
+
+describe('PATCH /api/basket/:basket_id', () => {
+	test('200: Returns an updated quantity and price field when quantity amended', () => {
+		const updatedItem = { inc_quantity: 2, item_title: 'EIGHTY SIX' };
+
+		return request(app)
+			.patch('/api/basket/3')
+			.send(updatedItem)
+			.expect(200)
+			.then(({ body }) => {
+				expect(body).toHaveProperty('quantity', 3);
+				expect(body).toHaveProperty('price', '29.85');
 			});
 	});
 });
