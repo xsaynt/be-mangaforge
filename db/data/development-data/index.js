@@ -2,7 +2,7 @@ const { basketData } = require('./basket.js');
 const { favouritesData } = require('./favourites.js');
 const { historyData } = require('./history.js');
 const { usersData } = require('./users.js');
-const { mangaData } = require('./manga.js');
+const { mangaData } = require('../test-data/manga.js');
 
 module.exports = {
 	basketData,
