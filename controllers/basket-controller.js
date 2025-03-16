@@ -30,13 +30,13 @@ exports.getSingleBasket = async (req, res, next) => {
 
 exports.postNewItem = async (req, res, next) => {
 	const { basket_id } = req.params;
-	const { item_title, item_author, item_image, price, quantity } = req.body;
+	const { manga_title, manga_author, manga_img, price, quantity } = req.body;
 
 	try {
 		const newItem = await addToBasket(basket_id, {
-			item_title,
-			item_author,
-			item_image,
+			manga_title,
+			manga_author,
+			manga_img,
 			price,
 			quantity,
 		});
@@ -48,12 +48,12 @@ exports.postNewItem = async (req, res, next) => {
 
 exports.updateBasketItem = async (req, res, next) => {
 	const { basket_id } = req.params;
-	const { inc_quantity, item_title } = req.body;
+	const { inc_quantity, manga_title } = req.body;
 
 	try {
 		const updatedBasket = await updateQuantity(basket_id, {
 			inc_quantity,
-			item_title,
+			manga_title,
 		});
 		res.status(200).send(updatedBasket);
 	} catch (error) {

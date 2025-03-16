@@ -4,13 +4,14 @@ const db = require('../db/seeds/seed.js');
 const app = require('../__app__/app.js');
 const data = require('../db/data/test-data');
 const dbConnection = require('../db/connection.js');
+jest.setTimeout(100000);
 
-beforeEach(() => {
-	return db(data);
+beforeAll(async () => {
+	await db(data);
 });
 
-afterAll(() => {
-	return dbConnection.end();
+afterAll(async () => {
+	await dbConnection.end();
 });
 
 describe('GET /api', () => {
@@ -34,9 +35,9 @@ describe('GET /api/basket', () => {
 				baskets.forEach((basket) => {
 					expect(basket).toHaveProperty('basket_id', expect.any(Number));
 					expect(basket).toHaveProperty('user_id', expect.any(Number));
-					expect(basket).toHaveProperty('item_title', expect.any(String));
-					expect(basket).toHaveProperty('item_author', expect.any(String));
-					expect(basket).toHaveProperty('item_image', expect.any(String));
+					expect(basket).toHaveProperty('manga_title', expect.any(String));
+					expect(basket).toHaveProperty('manga_author', expect.any(String));
+					expect(basket).toHaveProperty('manga_img', expect.any(String));
 					expect(basket).toHaveProperty('price', expect.any(String));
 					expect(basket).toHaveProperty('quantity', expect.any(Number));
 				});
@@ -51,8 +52,8 @@ describe('GET /api/basket/:basket_id', () => {
 			.expect(200)
 			.then(({ body: basket }) => {
 				expect(basket).toHaveLength(2);
-				basket.forEach((item) => {
-					expect(item).toHaveProperty('basket_id', 3);
+				basket.forEach((manga) => {
+					expect(manga).toHaveProperty('basket_id', 3);
 				});
 			});
 	});
@@ -75,12 +76,11 @@ describe('GET /api/basket/:basket_id', () => {
 });
 
 describe('POST /api/basket/:basket_id', () => {
-	test('201: Adds another item to the basket of a specified basket', () => {
+	test('201: Adds another manga to the basket of a specified basket', () => {
 		const inputData = {
-			item_title: 'Dandadan',
-			item_author: 'Yukinobu Tatsu',
-			item_image:
-				'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+			manga_title: 'Dandadan',
+			manga_author: 'Yukinobu Tatsu',
+			manga_img: 'https://m.media-amazon.com/imgs/I/911akONEKzL._SL1500_.jpg',
 			price: 12.99,
 			quantity: 1,
 		};
@@ -93,10 +93,10 @@ describe('POST /api/basket/:basket_id', () => {
 				expect(body).toMatchObject({
 					basket_id: 3,
 					user_id: 3,
-					item_title: 'Dandadan',
-					item_author: 'Yukinobu Tatsu',
-					item_image:
-						'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+					manga_title: 'Dandadan',
+					manga_author: 'Yukinobu Tatsu',
+					manga_img:
+						'https://m.media-amazon.com/imgs/I/911akONEKzL._SL1500_.jpg',
 					price: '12.99',
 					quantity: 1,
 				});
@@ -104,10 +104,9 @@ describe('POST /api/basket/:basket_id', () => {
 	});
 	test('404: Returns a not found error when attempting to post to a non existing basket_id', () => {
 		const inputData = {
-			item_title: 'Dandadan',
-			item_author: 'Yukinobu Tatsu',
-			item_image:
-				'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+			manga_title: 'Dandadan',
+			manga_author: 'Yukinobu Tatsu',
+			manga_img: 'https://m.media-amazon.com/imgs/I/911akONEKzL._SL1500_.jpg',
 			price: 12.99,
 			quantity: 1,
 		};
@@ -122,10 +121,9 @@ describe('POST /api/basket/:basket_id', () => {
 	});
 	test('400: Returns a does not exist error when attempting to post to a invalid basket_id input', () => {
 		const inputData = {
-			item_title: 'Dandadan',
-			item_author: 'Yukinobu Tatsu',
-			item_image:
-				'https://m.media-amazon.com/images/I/911akONEKzL._SL1500_.jpg',
+			manga_title: 'Dandadan',
+			manga_author: 'Yukinobu Tatsu',
+			manga_img: 'https://m.media-amazon.com/imgs/I/911akONEKzL._SL1500_.jpg',
 			price: 12.99,
 			quantity: 1,
 		};
@@ -142,11 +140,11 @@ describe('POST /api/basket/:basket_id', () => {
 
 describe('PATCH /api/basket/:basket_id', () => {
 	test('200: Returns an updated quantity and price field when quantity amended', () => {
-		const updatedItem = { inc_quantity: 2, item_title: 'EIGHTY SIX' };
+		const updatedmanga = { inc_quantity: 2, manga_title: 'EIGHTY SIX' };
 
 		return request(app)
 			.patch('/api/basket/3')
-			.send(updatedItem)
+			.send(updatedmanga)
 			.expect(200)
 			.then(({ body }) => {
 				expect(body).toHaveProperty('quantity', 3);

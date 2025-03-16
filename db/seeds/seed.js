@@ -1,11 +1,19 @@
 const format = require('pg-format');
 const db = require('../connection.js');
+const mangaList = require('../../utils/myanimelist.js');
 
-const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
+const seed = async ({
+	basketData,
+	favouritesData,
+	historyData,
+	usersData,
+	mangaData,
+}) => {
 	await db.query('DROP TABLE IF EXISTS basket;');
 	await db.query('DROP TABLE IF EXISTS favourites;');
 	await db.query('DROP TABLE IF EXISTS history;');
 	await db.query('DROP TABLE IF EXISTS users;');
+	await db.query('DROP TABLE IF EXISTS manga;');
 
 	await db.query(`
         CREATE TABLE users (
@@ -17,14 +25,25 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
         );
     `);
 
+	await db.query(`
+		CREATE TABLE manga (
+			manga_id SERIAL PRIMARY KEY,
+			manga_title VARCHAR NOT NULL,
+			manga_author VARCHAR NOT NULL,
+			manga_img VARCHAR,
+			price NUMERIC(10,2),
+			quantity INT NOT NULL CHECK (quantity >= 0)
+		);
+	`);
+
 	await Promise.all([
 		db.query(`
             CREATE TABLE basket (
                 basket_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-                item_title VARCHAR NOT NULL,
-                item_author VARCHAR NOT NULL,
-                item_image VARCHAR NOT NULL,
+                manga_title VARCHAR NOT NULL,
+                manga_author VARCHAR NOT NULL,
+                manga_img VARCHAR NOT NULL,
                 price NUMERIC(10,2),
                 quantity INT NOT NULL CHECK (quantity >= 0)
             );
@@ -34,9 +53,9 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
             CREATE TABLE favourites (
                 favourites_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-                item_title VARCHAR NOT NULL,
-                item_author VARCHAR NOT NULL,
-                item_image VARCHAR NOT NULL,
+                manga_title VARCHAR NOT NULL,
+                manga_author VARCHAR NOT NULL,
+                manga_img VARCHAR NOT NULL,
                 price NUMERIC(10,2)
             );
         `),
@@ -45,9 +64,9 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
             CREATE TABLE history (
                 history_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
                 user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-                item_title VARCHAR NOT NULL,
-                item_author VARCHAR NOT NULL,
-                item_image VARCHAR NOT NULL,
+                manga_title VARCHAR NOT NULL,
+                manga_author VARCHAR NOT NULL,
+                manga_img VARCHAR NOT NULL,
                 price NUMERIC(10,2),
                 quantity INT NOT NULL CHECK (quantity >= 0)
             );
@@ -71,15 +90,34 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 		console.log('No user data to insert.');
 	}
 
+	const mangaInfo = await mangaList();
+
+	if (mangaInfo && mangaInfo.length > 0) {
+		const insertMangaQueryStr = format(
+			`INSERT INTO manga(manga_title, manga_author, manga_img, price, quantity) VALUES %L;`,
+			mangaInfo.map(({ title, authors, imageUrl }) => [
+				title,
+				authors,
+				imageUrl,
+				Math.random() * (15 - 10) + 10,
+				Math.floor(Math.random() * (100 - 40 + 1)) + 40,
+			])
+		);
+
+		await db.query(insertMangaQueryStr);
+	} else {
+		console.log('No manga data to insert.');
+	}
+
 	const flatBasketData = (basketData || [])
 		.flat()
 		.map(
-			({ user_id, item_title, item_author, item_image, price, quantity }) => [
+			({ user_id, manga_title, manga_author, manga_img, price, quantity }) => [
 				user_id,
 				user_id,
-				item_title,
-				item_author,
-				item_image,
+				manga_title,
+				manga_author,
+				manga_img,
 				price,
 				quantity,
 			]
@@ -87,7 +125,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 	if (basketData && basketData.length > 0) {
 		const insertBasketQueryStr = format(
-			`INSERT INTO basket(basket_id, user_id, item_title, item_author, item_image, price, quantity) VALUES %L;`,
+			`INSERT INTO basket(basket_id, user_id, manga_title, manga_author, manga_img, price, quantity) VALUES %L;`,
 			flatBasketData
 		);
 		await db.query(insertBasketQueryStr);
@@ -97,14 +135,14 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 	if (favouritesData && favouritesData.length > 0) {
 		const insertFavouritesQueryStr = format(
-			`INSERT INTO favourites(favourites_id, user_id, item_title, item_author, item_image, price) VALUES %L;`,
+			`INSERT INTO favourites(favourites_id, user_id, manga_title, manga_author, manga_img, price) VALUES %L;`,
 			(favouritesData || []).map(
-				({ user_id, item_title, item_author, item_image, price }) => [
+				({ user_id, manga_title, manga_author, manga_img, price }) => [
 					user_id,
 					user_id,
-					item_title,
-					item_author,
-					item_image,
+					manga_title,
+					manga_author,
+					manga_img,
 					price,
 				]
 			)
@@ -117,12 +155,12 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 	const flatHistoryData = (historyData || [])
 		.flat()
 		.map(
-			({ user_id, item_title, item_author, item_image, price, quantity }) => [
+			({ user_id, manga_title, manga_author, manga_img, price, quantity }) => [
 				user_id,
 				user_id,
-				item_title,
-				item_author,
-				item_image,
+				manga_title,
+				manga_author,
+				manga_img,
 				price,
 				quantity,
 			]
@@ -130,7 +168,7 @@ const seed = async ({ basketData, favouritesData, historyData, usersData }) => {
 
 	if (flatHistoryData.length > 0) {
 		const insertHistoryQueryStr = format(
-			`INSERT INTO history(history_id, user_id, item_title, item_author, item_image, price, quantity) VALUES %L;`,
+			`INSERT INTO history(history_id, user_id, manga_title, manga_author, manga_img, price, quantity) VALUES %L;`,
 			flatHistoryData
 		);
 
