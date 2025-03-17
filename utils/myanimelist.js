@@ -4,40 +4,28 @@ const dotenv = require('dotenv');
 dotenv.config({ path: '.env.malclientid' });
 
 const apiKey = process.env.MAL_CLIENT_ID;
+const authorCache = new Map();
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getAuthorDetails = async (authorId) => {
+	if (authorCache.has(authorId)) {
+		return authorCache.get(authorId);
+	}
+
 	try {
 		const response = await axios.get(
 			`https://api.myanimelist.net/v2/people/${authorId}`,
 			{
 				headers: { 'X-MAL-CLIENT-ID': apiKey },
-				params: { fields: 'first_name,last_name,image_url' },
+				params: { fields: 'first_name, last_name' },
 			}
 		);
 
 		const { first_name, last_name } = response.data;
-		return `${first_name} ${last_name}`.trim();
-	} catch (error) {
-		console.log(error);
-		return 'Unknown';
-	}
-};
+		const fullName = `${first_name} ${last_name}`.trim();
 
-const getMangaDetails = async (mangaId) => {
-	try {
-		const response = await axios.get(
-			`https://api.myanimelist.net/v2/manga/${mangaId}`,
-			{
-				headers: { 'X-MAL-CLIENT-ID': apiKey },
-				params: { fields: 'authors' },
-			}
-		);
-
-		const authors = response.data.authors
-			? await getAuthorDetails(response.data.authors[0].node.id)
-			: 'Unknown';
-
-		return authors;
+		authorCache.set(authorId, fullName);
+		return fullName;
 	} catch (error) {
 		console.log(error);
 		return 'Unknown';
@@ -52,21 +40,39 @@ const mangaList = async (limit = 100) => {
 				headers: {
 					'X-MAL-CLIENT-ID': apiKey,
 				},
-				params: { ranking_type: 'bypopularity', limit },
+				params: {
+					ranking_type: 'bypopularity',
+					limit,
+					fields: 'authors, main_picture',
+				},
 			}
 		);
 
 		const topManga = response.data.data;
 
-		const mangaPromise = topManga.map(async (manga) => {
-			const { id, title, main_picture } = manga.node;
+		const mangaPromise = topManga.map(async (manga, index) => {
+			const { id, title, main_picture, authors } = manga.node;
 			const imageUrl = main_picture ? main_picture.large : 'No Image';
-			const authors = await getMangaDetails(id);
+			let authorName = 'Unknown';
+
+			if (authors && authors.length > 0) {
+				const storyAuthor = authors.find((author) =>
+					author.role.includes('Story')
+				);
+
+				if (storyAuthor) {
+					authorName = await getAuthorDetails(storyAuthor.node.id);
+				}
+			}
+
+			if (index % 5 === 0) {
+				await sleep(500);
+			}
 
 			return {
 				id,
 				title,
-				authors,
+				authors: authorName,
 				imageUrl,
 				url: `https://myanimelist.net/manga/${id}`,
 			};
