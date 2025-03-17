@@ -56,9 +56,13 @@ const mangaList = async (limit = 100) => {
 			let authorName = 'Unknown';
 
 			if (authors && authors.length > 0) {
-				const storyAuthor = authors.find((author) =>
-					author.role.includes('Story')
-				);
+				const storyAuthor = authors[0];
+
+				// REMOVE LINE ABOVE AND UNCOMMENT LINE BELOW
+
+				// authors.find((author) =>
+				// 	author.role.includes('Story')
+				// );
 
 				if (storyAuthor) {
 					authorName = await getAuthorDetails(storyAuthor.node.id);
@@ -86,6 +90,6 @@ const mangaList = async (limit = 100) => {
 	}
 };
 
-mangaList();
+mangaList(1).then((popularManga) => console.log(popularManga));
 
 module.exports = mangaList;

@@ -3,6 +3,17 @@
 		"descripton": "Provides a JSON representation of all available endpoints"
 	},
 	"GET /api/basket": {
-		"description": "Provides an array of objects"
+		"description": "Provides an array of objects",
+		"queries": [],
+		"exampleResponse": [
+			{
+				"user_id": 1,
+				"manga_title": "Jujutsu Kaisen",
+				"manga_author": "Gege Akutami",
+				"manga_img": "https://meo.comick.pictures/NrkKZo.jpg",
+				"price": 9.95,
+				"quantity": 1
+			}
+		]
 	}
 }
