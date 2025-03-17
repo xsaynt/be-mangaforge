@@ -15,5 +15,45 @@
 				"quantity": 1
 			}
 		]
+	},
+	"GET /api/basket/:basket_id": {
+		"description": "Provides an array of all items within a specific basket",
+		"queries": ["basket_id"],
+		"exampleResponse": [
+			{
+				"user_id": 3,
+				"manga_title": "Demon Slayer",
+				"manga_author": "Koyoharu Gotouge",
+				"manga_img": "https://m.media-amazon.com/imgs/I/81DjuU26RrL._SL1500_.jpg",
+				"price": 9.95,
+				"quantity": 1
+			},
+			{
+				"user_id": 3,
+				"manga_title": "EIGHTY SIX",
+				"manga_author": "Asato Asato",
+				"manga_img": "https://encrypted-tbn3.gstatic.com/imgs?q=tbn:ANd9GcR_ewEvc26eUgUcCm1IoNmeD3wBm5qoDk42CiZB9B0sCgM9gkm2",
+				"price": 9.95,
+				"quantity": 1
+			}
+		]
+	},
+	"POST /api/basket/:basket_id": {
+		"description": "Updates a users basket with an item",
+		"queries": ["basket_id"],
+		"exampleResponse": [
+			{
+				"manga_title": "Dandadan",
+				"manga_author": "Yukinobu Tatsu",
+				"manga_img": "https://m.media-amazon.com/imgs/I/911akONEKzL._SL1500_.jpg",
+				"price": 12.99,
+				"quantity": 1
+			}
+		]
+	},
+	"PATCH /api/basket/:basket_id": {
+		"description": "Updates a specific item for a specific basket",
+		"queries": ["basket_id"],
+		"exampleResponse": [{ "inc_quantity": 2, "manga_title": "EIGHTY SIX" }]
 	}
 }
