@@ -179,7 +179,7 @@ describe('PATCH /api/basket/:basket_id', () => {
 
 describe('DELETE /api/basket/:basket_id', () => {
 	test('200: Removes an item from the basket depending on the item name', () => {
-		const deleteManga = { manga_title: 'Dandadan' };
+		const deleteManga = { manga_title: 'Demon Slayer' };
 
 		return request(app)
 			.delete('/api/basket/3')
@@ -187,14 +187,37 @@ describe('DELETE /api/basket/:basket_id', () => {
 			.expect(200)
 			.then(({ body }) => {
 				expect(body).toEqual({
+					basket_id: 3,
 					user_id: 3,
-					manga_title: 'EIGHTY SIX',
-					manga_author: 'Asato Asato',
+					manga_title: 'Demon Slayer',
+					manga_author: 'Koyoharu Gotouge',
 					manga_img:
-						'https://encrypted-tbn3.gstatic.com/imgs?q=tbn:ANd9GcR_ewEvc26eUgUcCm1IoNmeD3wBm5qoDk42CiZB9B0sCgM9gkm2',
-					price: 9.95,
+						'https://m.media-amazon.com/imgs/I/81DjuU26RrL._SL1500_.jpg',
+					price: '9.95',
 					quantity: 1,
 				});
+			});
+	});
+	test('404: Returns an not found error when passed a basket_id that does not exist', () => {
+		const deleteManga = { manga_title: 'Demon Slayer' };
+
+		return request(app)
+			.delete('/api/basket/5')
+			.send(deleteManga)
+			.expect(404)
+			.then(({ body }) => {
+				expect(body.msg).toBe('Not Found');
+			});
+	});
+	test('400: Returns an bad request error when passed an invalid basket_id value', () => {
+		const deleteManga = { manga_title: 'Demon Slayer' };
+
+		return request(app)
+			.delete('/api/basket/a')
+			.send(deleteManga)
+			.expect(400)
+			.then(({ body }) => {
+				expect(body.msg).toBe('Bad Request');
 			});
 	});
 });

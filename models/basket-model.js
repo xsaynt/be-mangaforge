@@ -47,10 +47,11 @@ exports.deleteMangaFromBasket = async (basket_id, deleteManga) => {
 	const result = await db.query(
 		`
 			DELETE FROM basket
-			WHERE baset_id = $1
-			AND manga_title = $2;
+			WHERE basket_id = $1
+			AND manga_title = $2
+			RETURNING *;
 		`,
 		[basket_id, manga_title]
 	);
-	return result.rows;
+	return result.rows[0];
 };

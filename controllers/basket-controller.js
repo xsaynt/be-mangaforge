@@ -3,6 +3,7 @@ const {
 	selectSingleBasket,
 	addToBasket,
 	updateQuantity,
+	deleteMangaFromBasket,
 } = require('../models/basket-model');
 
 exports.getAllBaskets = async (req, res, next) => {
@@ -60,6 +61,25 @@ exports.updateBasketItem = async (req, res, next) => {
 		} else {
 			res.status(200).send(updatedBasket);
 		}
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.deleteSingleManga = async (req, res, next) => {
+	const { basket_id } = req.params;
+	const { manga_title } = req.body;
+
+	try {
+		const remainingBasket = await deleteMangaFromBasket(basket_id, {
+			manga_title,
+		});
+
+		if (!remainingBasket) {
+			res.status(404).send({ msg: 'Not Found' });
+		}
+
+		res.status(200).send(remainingBasket);
 	} catch (error) {
 		next(error);
 	}
