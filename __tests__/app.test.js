@@ -151,4 +151,50 @@ describe('PATCH /api/basket/:basket_id', () => {
 				expect(body).toHaveProperty('price', '29.85');
 			});
 	});
+
+	test('404: Returns a not found error when passed a basket_id that does not exist', () => {
+		const updatedmanga = { inc_quantity: 2, manga_title: 'EIGHTY SIX' };
+
+		return request(app)
+			.patch('/api/basket/5')
+			.send(updatedmanga)
+			.expect(404)
+			.then(({ body }) => {
+				expect(body.msg).toBe('Not Found');
+			});
+	});
+
+	test('400: Returns a bad request error when passed an invalid input as the basket_id', () => {
+		const updatedmanga = { inc_quantity: 2, manga_title: 'EIGHTY SIX' };
+
+		return request(app)
+			.patch('/api/basket/b')
+			.send(updatedmanga)
+			.expect(400)
+			.then(({ body }) => {
+				expect(body.msg).toBe('Bad Request');
+			});
+	});
+});
+
+describe('DELETE /api/basket/:basket_id', () => {
+	test('200: Removes an item from the basket depending on the item name', () => {
+		const deleteManga = { manga_title: 'Dandadan' };
+
+		return request(app)
+			.delete('/api/basket/3')
+			.send(deleteManga)
+			.expect(200)
+			.then(({ body }) => {
+				expect(body).toEqual({
+					user_id: 3,
+					manga_title: 'EIGHTY SIX',
+					manga_author: 'Asato Asato',
+					manga_img:
+						'https://encrypted-tbn3.gstatic.com/imgs?q=tbn:ANd9GcR_ewEvc26eUgUcCm1IoNmeD3wBm5qoDk42CiZB9B0sCgM9gkm2',
+					price: 9.95,
+					quantity: 1,
+				});
+			});
+	});
 });

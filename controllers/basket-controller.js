@@ -55,7 +55,11 @@ exports.updateBasketItem = async (req, res, next) => {
 			inc_quantity,
 			manga_title,
 		});
-		res.status(200).send(updatedBasket);
+		if (!updatedBasket) {
+			res.status(404).send({ msg: 'Not Found' });
+		} else {
+			res.status(200).send(updatedBasket);
+		}
 	} catch (error) {
 		next(error);
 	}

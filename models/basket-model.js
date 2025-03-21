@@ -40,3 +40,17 @@ exports.updateQuantity = async (basket_id, updatemanga) => {
 	);
 	return result.rows[0];
 };
+
+exports.deleteMangaFromBasket = async (basket_id, deleteManga) => {
+	const { manga_title } = deleteManga;
+
+	const result = await db.query(
+		`
+			DELETE FROM basket
+			WHERE baset_id = $1
+			AND manga_title = $2;
+		`,
+		[basket_id, manga_title]
+	);
+	return result.rows;
+};
