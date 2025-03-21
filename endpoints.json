@@ -53,7 +53,30 @@
 	},
 	"PATCH /api/basket/:basket_id": {
 		"description": "Updates a specific item for a specific basket",
-		"queries": ["basket_id"],
-		"exampleResponse": [{ "inc_quantity": 2, "manga_title": "EIGHTY SIX" }]
+		"queries": ["basket_id", "quantity", "manga_title"],
+		"exampleResponse": [
+			{
+				"user_id": 3,
+				"manga_title": "EIGHTY SIX",
+				"manga_author": "Asato Asato",
+				"manga_img": "https://encrypted-tbn3.gstatic.com/imgs?q=tbn:ANd9GcR_ewEvc26eUgUcCm1IoNmeD3wBm5qoDk42CiZB9B0sCgM9gkm2",
+				"price": 9.95,
+				"quantity": 1
+			}
+		]
+	},
+	"DELETE /api/basket/:basket_id": {
+		"description": "Deletes a specified row on a target basket",
+		"queries": ["basket_id", "manga_title"],
+		"exampleResponse": [
+			{
+				"user_id": 3,
+				"manga_title": "Demon Slayer",
+				"manga_author": "Koyoharu Gotouge",
+				"manga_img": "https://m.media-amazon.com/imgs/I/81DjuU26RrL._SL1500_.jpg",
+				"price": 9.95,
+				"quantity": 1
+			}
+		]
 	}
 }
